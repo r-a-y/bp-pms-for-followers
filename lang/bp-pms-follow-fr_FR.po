@@ -1,0 +1,20 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BuddyPress Private Messages for Followers Only\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-06-03 10:50-0800\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Ray <r-a-y-@live.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: bp-pms-for-followers.php:73
+#: bp-pms-for-followers.php:74
+msgid "You cannot private message a user who is not following you"
+msgstr "Cette personne ne vous suit pas.  Votre message n'a pas été envoyé."
+
