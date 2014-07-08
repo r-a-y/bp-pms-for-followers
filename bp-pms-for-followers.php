@@ -14,7 +14,7 @@ class BP_PMs_Follow {
 
 			add_action( 'messages_message_before_save', array( &$this, 'check_recipients' ) );
 			add_action( 'init', array( &$this, 'override_bp_l10n' ), 9 );
-			add_action( 'wp_head', array( &$this, 'hide_pm_btn' ), 99 );
+			add_action( 'wp_head', array( &$this, 'remove_pm_btn' ), 99 );
 		}
 		else {
 			add_action( 'admin_notices', array( &$this, 'display_requirement' ) );
@@ -77,26 +77,38 @@ class BP_PMs_Follow {
 		unset( $mo );
 	}
 
-	// low-level way of removing the private message button if not friends, whitelisted, or site admin
-	function hide_pm_btn() {
-		global $bp;
-
-		// check if we're on a member's page
-		// backpat for older versions of BP
-		$bp_is_user = function_exists( 'bp_is_user' ) ? 'bp_is_user' : 'bp_is_member';		
-
-		if ( $bp_is_user() ) {
-			$is_whitelisted = in_array( $bp->displayed_user->id, $this->whitelist_ids );
-
-			$is_displayed_following = bp_follow_is_following( 'leader_id='. $bp->loggedin_user->id .'&follower_id='. $bp->displayed_user->id );
-
-			if ( !$is_displayed_following && !$is_whitelisted && ( $bp->loggedin_user->is_site_admin != 1 ) ) :
-	?>
-	<style type="text/css">#send-private-message {display:none;}</style>
-	<?php
-			endif;
-
+	/**
+	 * Remove the private message button for the displayed user.
+	 *
+	 * We remove the PM button if the displayed user is not following the logged-
+	 * in user.
+	 *
+	 * However, if the displayed user is whitelisted or if the logged-in user
+	 * has the 'bp_moderate' cap, the PM button does *not* get removed.
+	 *
+	 * @since 1.1.0
+	 */
+	function remove_pm_btn() {
+		// various conditions where we should bail out!
+		if ( ! bp_is_user() || ! bp_is_active( 'messages' ) || ! is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) ) {
+			return;
 		}
+
+		// if displayed user is whitelisted, allow logged-in user to message this user
+		if ( in_array( bp_displayed_user_id(), $this->whitelist_ids ) ) {
+			return;
+		}
+
+		$is_displayed_following = bp_follow_is_following( array(
+			'leader_id'   => bp_loggedin_user_id(),
+			'follower_id' => bp_displayed_user_id()
+		) );
+
+		// if displayed user is not following the logged-in user, remove PM button
+		if ( ! $is_displayed_following ) {
+			remove_action( 'bp_member_header_actions', 'bp_send_private_message_button', 20 );
+		}
+
 	}
 
 	// should this be translatable?
