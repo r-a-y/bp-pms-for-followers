@@ -1,8 +1,21 @@
 <?php
+/**
+ * BP PMs for Followers Core.
+ *
+ * @since 1.0.0
+ */
 class BP_PMs_Follow {
 
+	/**
+	 * Array of user IDs to whitelist from recipient checking.
+	 *
+	 * @var array See {@link BP_PMs_Follow::init()}
+	 */
 	protected $whitelist_ids = array();
 
+	/**
+	 * Initializer method.
+	 */
 	public function init() {
 		if ( class_exists( 'BP_Follow' ) ) {
 			load_plugin_textdomain( 'bp-pms-follow', false, dirname(plugin_basename(__FILE__)) . '/lang' );
@@ -60,27 +73,30 @@ class BP_PMs_Follow {
 				continue;
 			}
 
-			// check if the attempted recipient is following the sender
-			// if the recipient isn't following the sender, remove recipient from list
-			// if there are no recipients, BP_Messages_Message:send() will return false
-			// and thus message isn't sent!
+			// check if the attempted recipient is following the sender.
 			$is_recipient_following = bp_follow_is_following( array(
 				'leader_id'   => bp_loggedin_user_id(),
 				'follower_id' => $recipient->user_id
 			) );
 
-			// recipient isn't following, so remove recipient from list
+			/**
+			 * If the recipient isn't following the sender, remove recipient from list
+			 * if there are no recipients, BP_Messages_Message:send() will return false
+			 * and thus message isn't sent!
+			 */
 			if ( ! $is_recipient_following ) {
 				unset( $message_info->recipients[$key] );
 				$u++;
 			}
 		}
 
-		// if there are multiple recipients and if one of the recipients is not
-		// following the sender, remove everyone from the recipient's list
-		//
-		// this is done to prevent the message from being sent to *anyone* and is
-		// another spam prevention measure
+		/**
+		 * If there are multiple recipients and if one of the recipients is not
+		 * following the sender, remove everyone from the recipient's list.
+		 *
+		 * This is done to prevent the message from being sent to *anyone* and is
+		 * another spam prevention measure.
+		 */
 		if ( count( $recipients ) > 1 && $u > 0 ) {
 			unset( $message_info->recipients );
 		}
@@ -159,7 +175,9 @@ class BP_PMs_Follow {
 
 	}
 
-	// should this be translatable?
+	/**
+	 * Add admin notice denoting that BP Follow needs to be installed.
+	 */
 	public function display_requirement() {
 		echo '<div class="error fade"><p>BuddyPress Private Messages for Followers Only requires the <strong><a href="http://wordpress.org/extend/plugins/buddypress-followers/">BuddyPress Followers</a></strong> plugin. Please install and <a href="plugins.php">activate BuddyPress Followers</a> now.</p></div>';
 	}
@@ -167,4 +185,3 @@ class BP_PMs_Follow {
 
 $pms_follow = new BP_PMs_Follow();
 $pms_follow->init();
-?>
