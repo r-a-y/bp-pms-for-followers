@@ -21,45 +21,70 @@ class BP_PMs_Follow {
 		}
 	}
 
+	/**
+	 * Should we block the current user from sending a PM to recipient?
+	 *
+	 * If recipient is not following the logged-in user, stop the message from
+	 * sending.  If the current user has the 'bp_moderate' capability, this user
+	 * is exempt from this check.  Also if the recipient user ID is whitelisted,
+	 * we allow the message to send.
+	 *
+	 * Note that we're only doing checks against the logged-in user and not the
+	 * sender's user ID.  This is done so plugins can continue to send PMs w/o
+	 * the possibility of beign blocked.  Open to changing this though.
+	 *
+	 * @param BP_Messages_Message $message_info
+	 */
 	function check_recipients( $message_info ) {
-		global $bp;
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
 
 		$recipients = $message_info->recipients;
 
 		$u = 0; // # of recipients in the message that are not following the sender
 
 		foreach ( $recipients as $key => $recipient ) {
-			$is_whitelisted = in_array( $recipient->user_id, $this->whitelist_ids );
-
 			// if recipient is whitelisted, skip check
-			if( $is_whitelisted )
+			if( in_array( $recipient->user_id, $this->whitelist_ids ) ) {
 				continue;
+			}
 
-			// if site admin, skip check
-			if( $bp->loggedin_user->is_site_admin == 1 )
+			// if logged-in user can moderate, skip check
+			if( bp_current_user_can( 'bp_moderate' ) ) {
 				continue;
+			}
 
 			// make sure sender is not trying to send to themselves
-			if ( $recipient->user_id == $bp->loggedin_user->id ) {
+			if ( $recipient->user_id == bp_loggedin_user_id() ) {
 				unset( $message_info->recipients[$key] );
 				continue;
 			}
 
 			// check if the attempted recipient is following the sender
 			// if the recipient isn't following the sender, remove recipient from list
-			// if there are no recipients, BP_Messages_Message:send() will return false and thus message isn't sent!
-			$is_recipient_following = bp_follow_is_following( 'leader_id='. $bp->loggedin_user->id .'&follower_id='. $recipient->user_id );
+			// if there are no recipients, BP_Messages_Message:send() will return false
+			// and thus message isn't sent!
+			$is_recipient_following = bp_follow_is_following( array(
+				'leader_id'   => bp_loggedin_user_id(),
+				'follower_id' => $recipient->user_id
+			) );
 
-			if ( !$is_recipient_following ) {
+			// recipient isn't following, so remove recipient from list
+			if ( ! $is_recipient_following ) {
 				unset( $message_info->recipients[$key] );
 				$u++;
 			}
 		}
 
-		// if there are multiple recipients and if one of the recipients is not following the sender, remove everyone from the recipient's list
-		// this is done to prevent the message from being sent to *anyone* and is another spam prevention measure
-		if ( count( $recipients ) > 1 && $u > 0 )
+		// if there are multiple recipients and if one of the recipients is not
+		// following the sender, remove everyone from the recipient's list
+		//
+		// this is done to prevent the message from being sent to *anyone* and is
+		// another spam prevention measure
+		if ( count( $recipients ) > 1 && $u > 0 ) {
 			unset( $message_info->recipients );
+		}
 	}
 
 	/**
