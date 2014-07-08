@@ -14,5 +14,4 @@ Donate: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CT8
 function bp_pms_for_followers_init() {
 	require( dirname( __FILE__ ) . '/bp-pms-for-followers.php' );
 }
-add_action( 'bp_init', 'bp_pms_for_followers_init', 99 );
-?>
+add_action( 'bp_loaded', 'bp_pms_for_followers_init', 20 );
