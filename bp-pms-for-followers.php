@@ -1,16 +1,15 @@
 <?php
 class BP_PMs_Follow {
 
-	var $whitelist_ids;
+	protected $whitelist_ids = array();
 
 	function init() {
 		if ( class_exists( 'BP_Follow' ) ) {
 			load_plugin_textdomain( 'bp-pms-follow', false, dirname(plugin_basename(__FILE__)) . '/lang' );
 
-			if( defined( "BP_PM_RECIPIENT_WHITELIST" ) )
-				$this->whitelist_ids = explode(',', BP_PM_RECIPIENT_WHITELIST );
-			else
-				$this->whitelist_ids = array();
+			if ( defined( 'BP_PM_RECIPIENT_WHITELIST' ) ) {
+				$this->whitelist_ids = explode( ',', BP_PM_RECIPIENT_WHITELIST );
+			}
 
 			add_action( 'messages_message_before_save', array( &$this, 'check_recipients' ) );
 			add_action( 'init', array( &$this, 'override_bp_l10n' ), 9 );
