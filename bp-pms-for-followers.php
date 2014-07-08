@@ -62,17 +62,41 @@ class BP_PMs_Follow {
 			unset( $message_info->recipients );
 	}
 
-	// thanks to Paul Gibbs for this technique!
+	/**
+	 * Override specific gettext values used by BuddyPress.
+	 *
+	 * Thanks to Paul Gibbs for this technique!
+	 */
 	function override_bp_l10n() {
 		global $l10n;
-	
+
 		$mo = new MO();
-		$mo->add_entry( array( 'singular' => 'There was an error sending that message, please try again', 'translations' => array( __ ('You cannot private message a user who is not following you', 'bp-pms-follow' ) ) ) );
-		$mo->add_entry( array( 'singular' => 'There was a problem sending that reply. Please try again.', 'translations' => array( __ ('You cannot private message a user who is not following you', 'bp-pms-follow' ) ) ) );	
-	
-		if ( isset( $l10n['buddypress'] ) )
+
+		$mo->add_entry( array(
+			'singular'     => 'There was an error sending that message, please try again',
+			'translations' => array(
+				__ ('You cannot private message a user who is not following you', 'bp-pms-follow' )
+			)
+		) );
+
+		$mo->add_entry( array(
+			'singular'     => 'There was a problem sending that reply. Please try again.',
+			'translations' => array(
+				__ ('You cannot private message a user who is not following you', 'bp-pms-follow'
+			)
+		) ) );
+
+		$mo->add_entry( array(
+			'singular'     => "Send To (Username or Friend's Name)",
+			'translations' => array(
+				__( "Send To (Username or Followers' Name)", 'bp-pms-follow' )
+			)
+		) );
+
+		if ( isset( $l10n['buddypress'] ) ) {
 			$mo->merge_with( $l10n['buddypress'] );
-	
+		}
+
 		$l10n['buddypress'] = &$mo;
 		unset( $mo );
 	}
