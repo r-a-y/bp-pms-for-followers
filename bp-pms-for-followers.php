@@ -82,7 +82,10 @@ class BP_PMs_Follow {
 		global $bp;
 
 		// check if we're on a member's page
-		if ( bp_is_member() ) {
+		// backpat for older versions of BP
+		$bp_is_user = function_exists( 'bp_is_user' ) ? 'bp_is_user' : 'bp_is_member';		
+
+		if ( $bp_is_user() ) {
 			$is_whitelisted = in_array( $bp->displayed_user->id, $this->whitelist_ids );
 
 			$is_displayed_following = bp_follow_is_following( 'leader_id='. $bp->loggedin_user->id .'&follower_id='. $bp->displayed_user->id );
