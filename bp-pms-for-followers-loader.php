@@ -3,8 +3,8 @@
 Plugin Name: BuddyPress Private Messages for Followers Only
 Description: Allow members to send private messages only if the recipient is following them.  Requires the BuddyPress Followers plugin.
 Author: r-a-y
-Author URI: http://buddypress.org/community/members/r-a-y
-Plugin URI: http://buddypress.org/community/groups/buddypress-private-messages-for-followers-only
+Author URI: http://profiles.wordpress.org/r-a-y
+Plugin URI: http://wordpress.org/plugins/buddypress-private-messages-for-followers-only
 Version: 1.0
 
 License: CC-GNU-GPL http://creativecommons.org/licenses/GPL/2.0/
