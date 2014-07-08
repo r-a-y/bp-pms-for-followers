@@ -3,7 +3,7 @@ class BP_PMs_Follow {
 
 	protected $whitelist_ids = array();
 
-	function init() {
+	public function init() {
 		if ( class_exists( 'BP_Follow' ) ) {
 			load_plugin_textdomain( 'bp-pms-follow', false, dirname(plugin_basename(__FILE__)) . '/lang' );
 
@@ -34,7 +34,7 @@ class BP_PMs_Follow {
 	 *
 	 * @param BP_Messages_Message $message_info
 	 */
-	function check_recipients( $message_info ) {
+	public function check_recipients( $message_info ) {
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -91,7 +91,7 @@ class BP_PMs_Follow {
 	 *
 	 * Thanks to Paul Gibbs for this technique!
 	 */
-	function override_bp_l10n() {
+	public function override_bp_l10n() {
 		global $l10n;
 
 		$mo = new MO();
@@ -136,7 +136,7 @@ class BP_PMs_Follow {
 	 *
 	 * @since 1.1.0
 	 */
-	function remove_pm_btn() {
+	public function remove_pm_btn() {
 		// various conditions where we should bail out!
 		if ( ! bp_is_user() || ! bp_is_active( 'messages' ) || ! is_user_logged_in() || bp_current_user_can( 'bp_moderate' ) ) {
 			return;
@@ -160,7 +160,7 @@ class BP_PMs_Follow {
 	}
 
 	// should this be translatable?
-	function display_requirement() {
+	public function display_requirement() {
 		echo '<div class="error fade"><p>BuddyPress Private Messages for Followers Only requires the <strong><a href="http://wordpress.org/extend/plugins/buddypress-followers/">BuddyPress Followers</a></strong> plugin. Please install and <a href="plugins.php">activate BuddyPress Followers</a> now.</p></div>';
 	}
 }
