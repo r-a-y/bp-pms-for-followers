@@ -21,9 +21,9 @@ class BP_PMs_Follow {
 			$this->whitelist_ids = explode( ',', BP_PM_RECIPIENT_WHITELIST );
 		}
 
-		add_action( 'messages_message_before_save', array( &$this, 'check_recipients' ) );
-		add_action( 'init', array( &$this, 'override_bp_l10n' ), 9 );
-		add_action( 'wp_head', array( &$this, 'remove_pm_btn' ), 99 );
+		add_action( 'messages_message_before_save', array( $this, 'check_recipients' ) );
+		add_action( 'init',    array( $this, 'override_bp_l10n' ), 9 );
+		add_action( 'wp_head', array( $this, 'remove_pm_btn' ), 99 );
 	}
 
 	/**
