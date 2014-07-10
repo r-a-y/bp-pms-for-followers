@@ -17,20 +17,13 @@ class BP_PMs_Follow {
 	 * Initializer method.
 	 */
 	public function init() {
-		if ( class_exists( 'BP_Follow' ) ) {
-			load_plugin_textdomain( 'bp-pms-follow', false, dirname(plugin_basename(__FILE__)) . '/lang' );
-
-			if ( defined( 'BP_PM_RECIPIENT_WHITELIST' ) ) {
-				$this->whitelist_ids = explode( ',', BP_PM_RECIPIENT_WHITELIST );
-			}
-
-			add_action( 'messages_message_before_save', array( &$this, 'check_recipients' ) );
-			add_action( 'init', array( &$this, 'override_bp_l10n' ), 9 );
-			add_action( 'wp_head', array( &$this, 'remove_pm_btn' ), 99 );
+		if ( defined( 'BP_PM_RECIPIENT_WHITELIST' ) ) {
+			$this->whitelist_ids = explode( ',', BP_PM_RECIPIENT_WHITELIST );
 		}
-		else {
-			add_action( 'admin_notices', array( &$this, 'display_requirement' ) );
-		}
+
+		add_action( 'messages_message_before_save', array( &$this, 'check_recipients' ) );
+		add_action( 'init', array( &$this, 'override_bp_l10n' ), 9 );
+		add_action( 'wp_head', array( &$this, 'remove_pm_btn' ), 99 );
 	}
 
 	/**
@@ -175,12 +168,6 @@ class BP_PMs_Follow {
 
 	}
 
-	/**
-	 * Add admin notice denoting that BP Follow needs to be installed.
-	 */
-	public function display_requirement() {
-		echo '<div class="error fade"><p>BuddyPress Private Messages for Followers Only requires the <strong><a href="http://wordpress.org/extend/plugins/buddypress-followers/">BuddyPress Followers</a></strong> plugin. Please install and <a href="plugins.php">activate BuddyPress Followers</a> now.</p></div>';
-	}
 }
 
 $pms_follow = new BP_PMs_Follow();
