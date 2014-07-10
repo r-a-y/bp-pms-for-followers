@@ -2,8 +2,8 @@
 Contributors: r-a-y
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S6EZYK894S99G
 Tags: buddypress, message, private message, pm, spam
-Requires at least: WP 2.9 & BuddyPress 1.2
-Tested up to: WP 2.9.2 & BuddyPress 1.2.4.1
+Requires at least: WP 3.4.1 & BuddyPress 1.6
+Tested up to: WP 3.9.1 & BuddyPress 2.x
 Stable tag: 1.0
 
 Allow members to send private messages only **if** the recipient is following them.  Requires the BuddyPress Followers plugin.
@@ -19,7 +19,7 @@ This plugin allows members to send private messages only **if** the recipient is
 
 == Installation ==
 
-1. Download, install and activate the [BuddyPress Followers](http://wordpress.org/extend/plugins/buddypress-followers/) plugin.
+1. Download, install and activate the [BuddyPress Follow](http://wordpress.org/plugins/buddypress-followers/) plugin.
 1. Download, install and activate this plugin.
 1. That's it! :)
 
@@ -52,21 +52,15 @@ Yes it is.  But fear not!  You can send me a translation file for inclusion in t
 
 I do **not** recommend using the BuddyPress Followers plugin in tandem with the BuddyPress Friends component.
 
-If you're looking for a similar plugin for the BuddyPress friends component only, check out [this plugin](http://wordpress.org/extend/plugins/buddypress-private-message-for-friends-only/) instead.
-
-
-== Donate! ==
-
-I'm a forum moderator on the buddypress.org forums.  I spend a lot of my free time helping people - pro bono!
-
-If you downloaded this plugin and like it, please:
-
-* [Fund my work soundtrack!](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S6EZYK894S99G)  Music helps me help you!  A dollar lets me buy a new tune off Amie Street or emusic.com!  Or if you're feeling generous, you can help me buy a whole CD!  If you choose to donate, let me know what songs or which CD you want me to listen to! :)
-* Rate this plugin
-* Spread the gospel of BuddyPress
+If you're looking for a similar plugin for the BuddyPress friends component only, check out [this plugin](http://wordpress.org/plugins/buddypress-private-message-for-friends-only/) instead.
 
 
 == Changelog ==
+
+= 1.1 =
+* Bump minimum requirements to WP 3.4.1 / BuddyPress 1.6
+* Outright remove the private message button on member profiles instead of hiding via CSS
+* Override the "Send To" string on the compose private message page
 
 = 1.0 =
 * First version!
