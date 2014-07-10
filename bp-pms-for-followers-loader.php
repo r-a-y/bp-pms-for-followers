@@ -38,3 +38,27 @@ function bp_pms_for_followers_init() {
 
 }
 add_action( 'bp_loaded', 'bp_pms_for_followers_init', 20 );
+
+/**
+ * Custom textdomain loader.
+ *
+ * Checks WP_LANG_DIR for the .mo file first, then WP_LANG_DIR/plugins/, then
+ * the plugin's language folder.
+ *
+ * Allows for a custom language file other than those packaged with the plugin.
+ *
+ * @since 1.1.0
+ *
+ * @return bool True if textdomain loaded; false if not.
+ */
+function bp_pms_for_followers_localization() {
+	$domain = 'bp-pms-follow';
+	$mofile_custom = trailingslashit( WP_LANG_DIR ) . sprintf( '%s-%s.mo', $domain, get_locale() );
+
+	if ( is_readable( $mofile_custom ) ) {
+		return load_textdomain( $domain, $mofile_custom );
+	} else {
+		return load_plugin_textdomain( $domain, false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
+	}
+}
+add_action( 'plugins_loaded', 'bp_pms_for_followers_localization' );
