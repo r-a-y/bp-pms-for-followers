@@ -5,7 +5,7 @@ Description: Allow members to send private messages only if the recipient is fol
 Author: r-a-y
 Author URI: http://profiles.wordpress.org/r-a-y
 Plugin URI: http://wordpress.org/plugins/buddypress-private-messages-for-followers-only
-Version: 1.0
+Version: 1.1-alpha
 
 License: CC-GNU-GPL http://creativecommons.org/licenses/GPL/2.0/
 Donate: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=CT8KZGFEVA3R6
