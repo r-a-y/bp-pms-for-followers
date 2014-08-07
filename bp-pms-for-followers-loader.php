@@ -23,7 +23,7 @@ function bp_pms_for_followers_init() {
 			$requirement_notice = sprintf( __( 'BuddyPress Private Messages for Followers Only requires the %s plugin. Please <a href="%s">install</a> and activate BuddyPress Follow now.', 'bp-pms-follow' ), '<strong><a href="https://wordpress.org/plugins/buddypress-followers/">BuddyPress Follow</a></strong>', 'plugin-install.php?tab=search&amp;s=buddypress+follow' );
 
 			add_action( 'admin_notices', create_function( '', "
-				echo '<div class=\"error\"><p>' . $requirement_notice . '</p></div>';
+				echo '<div class=\"error\"><p>" . $requirement_notice . "</p></div>';
 			" ) );
 		}
 
@@ -32,7 +32,7 @@ function bp_pms_for_followers_init() {
 		$older_version_notice = sprintf( __( "Hey! BP Private Messages For Followers Only v1.1 requires BuddyPress 1.6 or higher.  If you don't plan on upgrading BuddyPress, use <a href='%s'>v1.0 instead</a>.", 'bp-pms-follow' ), 'http://downloads.wordpress.org/plugin/buddypress-private-messages-for-followers-only.1.0.zip' );
 
 		add_action( 'admin_notices', create_function( '', "
-			echo '<div class=\"error\"><p>' . $older_version_notice . '</p></div>';
+			echo '<div class=\"error\"><p>" . $older_version_notice . "</p></div>';
 		" ) );
 	}
 
