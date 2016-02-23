@@ -113,6 +113,13 @@ class BP_PMs_Follow {
 		) );
 
 		$mo->add_entry( array(
+			'singular'     => 'Message was not sent. Please try again.',
+			'translations' => array(
+				__ ('You cannot private message a user who is not following you', 'bp-pms-follow' )
+			)
+		) );
+
+		$mo->add_entry( array(
 			'singular'     => 'There was a problem sending that reply. Please try again.',
 			'translations' => array(
 				__ ('You cannot private message a user who is not following you', 'bp-pms-follow'
